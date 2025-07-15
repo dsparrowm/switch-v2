@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
   Search,
   Plus,
@@ -15,9 +16,11 @@ import {
   MoreVertical,
   Hash,
   Lock,
-  Users
+  Users,
+  ChevronDown,
+  ChevronRight
 } from 'lucide-react';
-import { mockUsers } from '@/data/mockData';
+import { mockUsers } from '@/contexts/AuthContext';
 
 const channels = [
   { id: 1, name: 'general', type: 'channel', members: 12, unread: 3 },
@@ -30,8 +33,8 @@ const channels = [
 const directMessages = [
   { id: 1, user: mockUsers[1], lastMessage: 'Hey, are you available for a quick call?', timestamp: '2:30 PM', unread: 2, online: true },
   { id: 2, user: mockUsers[2], lastMessage: 'Thanks for the design feedback!', timestamp: '1:15 PM', unread: 0, online: true },
-  { id: 3, user: mockUsers[3], lastMessage: 'See you at the meeting tomorrow', timestamp: '11:30 AM', unread: 1, online: false },
-  { id: 4, user: mockUsers[4], lastMessage: 'Can you review the PR when you get a chance?', timestamp: 'Yesterday', unread: 0, online: true },
+  { id: 3, user: mockUsers[0], lastMessage: 'See you at the meeting tomorrow', timestamp: '11:30 AM', unread: 1, online: false },
+  { id: 4, user: mockUsers[1], lastMessage: 'Can you review the PR when you get a chance?', timestamp: 'Yesterday', unread: 0, online: true },
 ];
 
 const messages = [
@@ -48,6 +51,7 @@ export default function Messages() {
   const [messageInput, setMessageInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('channels'); // 'channels' or 'dms'
+  const [dmDropdownOpen, setDmDropdownOpen] = useState(false);
 
   const filteredChannels = channels.filter(channel =>
     channel.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -98,7 +102,7 @@ export default function Messages() {
           <div className="relative">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search channels..."
+              placeholder="Search messages..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -112,8 +116,8 @@ export default function Messages() {
             {filteredChannels.map((channel) => (
               <button
                 key={channel.id}
-                onClick={() => setSelectedChannel(channel)}
-                className={`w-full text-left p-3 rounded-lg transition-colors flex items-center justify-between hover:bg-accent ${selectedChannel.id === channel.id
+                onClick={() => handleSelectChannel(channel)}
+                className={`w-full text-left p-3 rounded-lg transition-colors flex items-center justify-between hover:bg-accent ${selectedChannel?.id === channel.id
                   ? 'bg-primary text-primary-foreground'
                   : ''
                   }`}
@@ -137,6 +141,55 @@ export default function Messages() {
                 </div>
               </button>
             ))}
+
+            {/* Direct Messages Section */}
+            <Collapsible open={dmDropdownOpen} onOpenChange={setDmDropdownOpen}>
+              <CollapsibleTrigger className="w-full">
+                <div className="flex items-center justify-between text-sm font-medium text-muted-foreground mb-2 mt-6 hover:text-foreground transition-colors">
+                  <span>DIRECT MESSAGES</span>
+                  {dmDropdownOpen ? (
+                    <ChevronDown className="h-4 w-4" />
+                  ) : (
+                    <ChevronRight className="h-4 w-4" />
+                  )}
+                </div>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="space-y-1">
+                {filteredDMs.map((dm) => (
+                  <button
+                    key={dm.id}
+                    onClick={() => handleSelectDM(dm)}
+                    className={`w-full text-left p-3 rounded-lg transition-colors hover:bg-accent ${selectedDM?.id === dm.id
+                      ? 'bg-primary text-primary-foreground'
+                      : ''
+                      }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src={dm.user.avatar} alt={dm.user.name} />
+                          <AvatarFallback>{dm.user.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-background ${dm.online ? 'bg-green-500' : 'bg-gray-400'
+                          }`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium truncate">{dm.user.name}</span>
+                          <span className="text-xs text-muted-foreground">{dm.timestamp}</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground truncate">{dm.lastMessage}</p>
+                      </div>
+                      {dm.unread > 0 && (
+                        <Badge variant="destructive" className="h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
+                          {dm.unread}
+                        </Badge>
+                      )}
+                    </div>
+                  </button>
+                ))}
+              </CollapsibleContent>
+            </Collapsible>
           </div>
         </ScrollArea>
       </div>
@@ -146,17 +199,38 @@ export default function Messages() {
         {/* Chat Header */}
         <div className="p-4 border-b bg-card flex items-center justify-between">
           <div className="flex items-center gap-3">
-            {selectedChannel.type === 'channel' ? (
-              <Hash className="h-5 w-5" />
-            ) : (
-              <Lock className="h-5 w-5" />
-            )}
-            <div>
-              <h3 className="font-semibold">{selectedChannel.name}</h3>
-              <p className="text-sm text-muted-foreground">
-                {selectedChannel.members} members
-              </p>
-            </div>
+            {selectedChannel ? (
+              <>
+                {selectedChannel.type === 'channel' ? (
+                  <Hash className="h-5 w-5" />
+                ) : (
+                  <Lock className="h-5 w-5" />
+                )}
+                <div>
+                  <h3 className="font-semibold">{selectedChannel.name}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {selectedChannel.members} members
+                  </p>
+                </div>
+              </>
+            ) : selectedDM ? (
+              <>
+                <div className="relative">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={selectedDM.user.avatar} alt={selectedDM.user.name} />
+                    <AvatarFallback>{selectedDM.user.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-background ${selectedDM.online ? 'bg-green-500' : 'bg-gray-400'
+                    }`} />
+                </div>
+                <div>
+                  <h3 className="font-semibold">{selectedDM.user.name}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {selectedDM.online ? 'Online' : 'Offline'}
+                  </p>
+                </div>
+              </>
+            ) : null}
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon">
@@ -202,7 +276,13 @@ export default function Messages() {
             </Button>
             <div className="flex-1">
               <Input
-                placeholder={`Message #${selectedChannel.name}`}
+                placeholder={
+                  selectedChannel
+                    ? `Message #${selectedChannel.name}`
+                    : selectedDM
+                      ? `Message ${selectedDM.user.name}`
+                      : "Start a conversation"
+                }
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
                 onKeyPress={handleKeyPress}

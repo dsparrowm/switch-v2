@@ -11,11 +11,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { 
-  Bell, 
-  Search, 
-  Settings, 
-  User, 
+import {
+  Bell,
+  Search,
+  Settings,
+  User,
   LogOut,
   Menu,
   Sun,
@@ -65,10 +65,10 @@ export function Navbar({ onMenuToggle }: NavbarProps) {
         {/* Logo */}
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">OP</span>
+            <span className="text-white font-bold text-sm">S</span>
           </div>
           <span className="hidden sm:inline-block font-semibold text-lg">
-            OrgPlatform
+            Switch
           </span>
         </div>
 
@@ -107,8 +107,8 @@ export function Navbar({ onMenuToggle }: NavbarProps) {
               <Button variant="ghost" size="icon" className="relative">
                 <Bell className="h-5 w-5" />
                 {unreadCount > 0 && (
-                  <Badge 
-                    variant="destructive" 
+                  <Badge
+                    variant="destructive"
                     className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
                   >
                     {unreadCount}
