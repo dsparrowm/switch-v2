@@ -73,35 +73,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
       setUser(JSON.parse(savedUser));
+    } else {
+      // For development: auto-login as first user
+      const devUser = mockUsers[0];
+      setUser(devUser);
+      localStorage.setItem('currentUser', JSON.stringify(devUser));
     }
     setIsLoading(false);
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
-    
+
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     const foundUser = mockUsers.find(u => u.email === email);
-    
+
     if (foundUser && password === 'password') {
       setUser(foundUser);
       localStorage.setItem('currentUser', JSON.stringify(foundUser));
       setIsLoading(false);
       return true;
     }
-    
+
     setIsLoading(false);
     return false;
   };
 
   const register = async (userData: Partial<User>, password: string): Promise<boolean> => {
     setIsLoading(true);
-    
+
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     const newUser: User = {
       id: Date.now().toString(),
       name: userData.name || '',
@@ -114,7 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       productivity: 75,
       department: userData.department || 'General'
     };
-    
+
     setUser(newUser);
     localStorage.setItem('currentUser', JSON.stringify(newUser));
     setIsLoading(false);

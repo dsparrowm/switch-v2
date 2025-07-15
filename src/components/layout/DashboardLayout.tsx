@@ -28,7 +28,7 @@ export function DashboardLayout() {
   return (
     <div className="h-screen flex flex-col">
       <Navbar onMenuToggle={handleMenuToggle} />
-      
+
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
         <aside
@@ -42,7 +42,7 @@ export function DashboardLayout() {
 
         {/* Mobile sidebar overlay */}
         {!sidebarCollapsed && (
-          <div 
+          <div
             className="fixed inset-0 z-50 bg-black/50 md:hidden"
             onClick={handleMenuToggle}
           >
@@ -54,7 +54,7 @@ export function DashboardLayout() {
 
         {/* Main content */}
         <main className="flex-1 overflow-y-auto bg-background">
-          <div className="container mx-auto">
+          <div className="h-full">
             <Outlet />
           </div>
         </main>

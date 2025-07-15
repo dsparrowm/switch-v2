@@ -1,9 +1,9 @@
+/* Professional Organization Management Platform Design System */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Professional Organization Management Platform Design System */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -155,7 +155,12 @@
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-semibold tracking-tight;
   }
 
@@ -177,6 +182,7 @@
 }
 
 @layer components {
+
   /* Professional Button Variants */
   .btn-primary {
     @apply bg-primary hover:bg-primary/90 text-primary-foreground;
@@ -253,7 +259,7 @@
   .border-gradient {
     @apply border border-transparent;
     background: linear-gradient(var(--gradient-card)) padding-box,
-                var(--gradient-primary) border-box;
+      var(--gradient-primary) border-box;
   }
 
   /* Status Indicators */
@@ -275,6 +281,7 @@
 }
 
 @layer utilities {
+
   /* Custom Shadows */
   .shadow-glow {
     box-shadow: var(--shadow-glow);
@@ -335,6 +342,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -346,6 +354,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -357,6 +366,7 @@
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -364,9 +374,12 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: var(--shadow-glow);
   }
+
   50% {
     box-shadow: 0 0 60px hsl(var(--primary) / 0.4);
   }
