@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
-import LandingPage from "./pages/LandingPage";
 import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Tasks";
@@ -31,10 +30,10 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<LandingPage />} />
               <Route path="/auth" element={<AuthPage />} />
-              <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route path="/" element={<DashboardLayout />}>
                 <Route index element={<Dashboard />} />
+                <Route path="dashboard" element={<Dashboard />} />
                 <Route path="projects" element={<Projects />} />
                 <Route path="tasks" element={<Tasks />} />
                 <Route path="team" element={<Team />} />
