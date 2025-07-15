@@ -18,7 +18,7 @@ import {
   Lock,
   Users
 } from 'lucide-react';
-import { users } from '@/data/mockData';
+import { mockUsers } from '@/data/mockData';
 
 const channels = [
   { id: 1, name: 'general', type: 'channel', members: 12, unread: 3 },
@@ -29,11 +29,11 @@ const channels = [
 ];
 
 const messages = [
-  { id: 1, user: users[0], content: 'Hey everyone! Just wanted to share the latest updates on our project.', timestamp: '10:30 AM', type: 'text' },
-  { id: 2, user: users[1], content: 'Great work on the dashboard! The new design looks amazing.', timestamp: '10:32 AM', type: 'text' },
-  { id: 3, user: users[2], content: 'I\'ve uploaded the latest mockups to the shared drive.', timestamp: '10:35 AM', type: 'text' },
-  { id: 4, user: users[0], content: 'Thanks! Let me know if you need any changes.', timestamp: '10:37 AM', type: 'text' },
-  { id: 5, user: users[3], content: 'Can we schedule a meeting to discuss the next sprint?', timestamp: '10:40 AM', type: 'text' },
+  { id: 1, user: mockUsers[0], content: 'Hey everyone! Just wanted to share the latest updates on our project.', timestamp: '10:30 AM', type: 'text' },
+  { id: 2, user: mockUsers[1], content: 'Great work on the dashboard! The new design looks amazing.', timestamp: '10:32 AM', type: 'text' },
+  { id: 3, user: mockUsers[2], content: 'I\'ve uploaded the latest mockups to the shared drive.', timestamp: '10:35 AM', type: 'text' },
+  { id: 4, user: mockUsers[0], content: 'Thanks! Let me know if you need any changes.', timestamp: '10:37 AM', type: 'text' },
+  { id: 5, user: mockUsers[3], content: 'Can we schedule a meeting to discuss the next sprint?', timestamp: '10:40 AM', type: 'text' },
 ];
 
 export default function Messages() {

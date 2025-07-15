@@ -18,13 +18,13 @@ import {
   Clock,
   Users
 } from 'lucide-react';
-import { users } from '@/data/mockData';
+import { mockUsers } from '@/data/mockData';
 
 export default function Team() {
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
 
-  const filteredUsers = users.filter(user => {
+  const filteredUsers = mockUsers.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.email.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = roleFilter === 'all' || user.role === roleFilter;

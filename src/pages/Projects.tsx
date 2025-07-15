@@ -18,13 +18,13 @@ import {
   TrendingUp,
   AlertTriangle
 } from 'lucide-react';
-import { projects } from '@/data/mockData';
+import { mockProjects } from '@/data/mockData';
 
 export default function Projects() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
-  const filteredProjects = projects.filter(project => {
+  const filteredProjects = mockProjects.filter(project => {
     const matchesSearch = project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          project.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || project.status === statusFilter;

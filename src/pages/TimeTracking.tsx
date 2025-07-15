@@ -17,7 +17,7 @@ import {
   Timer,
   Target
 } from 'lucide-react';
-import { projects, tasks } from '@/data/mockData';
+import { mockProjects, mockTasks } from '@/data/mockData';
 
 const timeEntries = [
   { id: 1, task: 'Dashboard Design', project: 'Website Redesign', duration: '2h 30m', date: '2024-01-15', billable: true },
@@ -146,7 +146,7 @@ export default function TimeTracking() {
                       <SelectValue placeholder="Select project" />
                     </SelectTrigger>
                     <SelectContent>
-                      {projects.map(project => (
+                      {mockProjects.map(project => (
                         <SelectItem key={project.id} value={project.id}>
                           {project.name}
                         </SelectItem>
@@ -161,7 +161,7 @@ export default function TimeTracking() {
                       <SelectValue placeholder="Select task" />
                     </SelectTrigger>
                     <SelectContent>
-                      {tasks.slice(0, 5).map(task => (
+                      {mockTasks.slice(0, 5).map(task => (
                         <SelectItem key={task.id} value={task.id}>
                           {task.title}
                         </SelectItem>
@@ -282,7 +282,7 @@ export default function TimeTracking() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {projects.slice(0, 3).map((project, index) => (
+                {mockProjects.slice(0, 3).map((project, index) => (
                   <div key={project.id} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-2 h-2 bg-primary rounded-full" />
